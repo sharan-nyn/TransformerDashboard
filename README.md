@@ -10,11 +10,11 @@
 8. More features planned to come...
 ## Screenshots
 #### Normal Mode Clock
-<div align="center">
-    <img src="./screenshots/clock.png" width="600px"/>
+<div>
+    <img src="./screenshots/clock.png" width="350px"/>
 </div>
 
 #### Night Mode Clock
-<div align="center">
-    <img src="./screenshots/clock_night.png" width="600px"/>
+<div>
+    <img src="./screenshots/clock_night.png" width="350px"/>
 </div>
