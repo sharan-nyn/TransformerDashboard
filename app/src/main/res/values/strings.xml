@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Dashboard</string>
+    <string name="clock_header">It\'s</string>
+    <string name="clock_date">Sun, 20 Sep</string>
+    <string name="clock_time">Four\nTwenty\nFive</string>
+    <string name="wifi_switch">WiFi</string>
+    <string name="wifi_switch_connected">WiFi Connected (%1$s)</string>
+
+</resources>
