@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".fragments.Main">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <LinearLayout
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clock_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0">
+
+            <FrameLayout
+                android:id="@+id/clock_fragment_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stats_constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:id="@+id/stats_fragment_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/fullscreen_content_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/black_overlay"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        tools:ignore="UselessParent">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/wifi_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/wifi_switch" />
+
+    </LinearLayout>
+
+</FrameLayout>
