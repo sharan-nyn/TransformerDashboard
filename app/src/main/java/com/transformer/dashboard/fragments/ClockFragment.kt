@@ -13,7 +13,7 @@ import com.transformer.dashboard.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Clock : Fragment(R.layout.fragment_clock) {
+class ClockFragment : Fragment(R.layout.fragment_clock) {
     private lateinit var clockHeaderTextView: TextView
     private lateinit var clockTimeTextView: TextView
     private lateinit var clockDateTextView: TextView

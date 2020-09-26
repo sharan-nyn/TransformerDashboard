@@ -25,9 +25,10 @@ import java.util.*
  * An example full-screen fragment that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class Main : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main) {
     private val hideHandler = Handler()
-    private var clockFragment: Clock = Clock()
+    private var clockFragment: ClockFragment = ClockFragment()
+    private var statsFragment: StatsFragment = StatsFragment()
 
     private val tickerHandler = Handler()
     private lateinit var ticker: Runnable
@@ -82,6 +83,8 @@ class Main : Fragment(R.layout.fragment_main) {
 
     private lateinit var wifiManager: WifiManager
     private lateinit var wifiSwitch: SwitchCompat
+    private lateinit var statsSwitch: SwitchCompat
+
 
     private var wifiCounter: Int = 0
 
@@ -99,24 +102,66 @@ class Main : Fragment(R.layout.fragment_main) {
 
         clockConstraintLayout = view.findViewById(R.id.clock_constraintLayout)
         statsConstraintLayout = view.findViewById(R.id.stats_constraintLayout)
+        wifiSwitch = view.findViewById(R.id.wifi_switch)
+        statsSwitch = view.findViewById(R.id.stats_switch)
 
         // inflate clock fragment
         fragmentManager?.beginTransaction()?.replace(R.id.clock_fragment_content, clockFragment)
             ?.commit()
 
+        // inflate stats fragment
+        fragmentManager?.beginTransaction()?.replace(R.id.stats_fragment_content, statsFragment)
+            ?.commit()
+
         wifiManager =
             requireContext().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiSwitch = view.findViewById(R.id.wifi_switch)
 
         wifiSwitch.isChecked = wifiManager.isWifiEnabled
+        statsSwitch.isEnabled = true
 
         wifiSwitch.setOnCheckedChangeListener { _, isChecked ->
             toggleWiFi(isChecked)
+            if (!isChecked) {
+                toggleStats(false);
+            }
         }
+
+        statsSwitch.setOnCheckedChangeListener {_, isChecked ->
+            toggleStats(isChecked)
+        }
+
     }
 
     private fun toggleWiFi(status: Boolean) {
         wifiManager.isWifiEnabled = status
+        if (status)  {
+            wifiSwitch.isChecked = true
+        } else {
+            wifiSwitch.isChecked = false
+            toggleStats(false);
+            statsSwitch.isEnabled = false
+            wifiSwitch.text = getString(R.string.wifi_switch)
+        }
+    }
+
+    private fun toggleStats(status: Boolean) {
+        if (statsSwitch.isEnabled) {
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                1.0f
+            )
+
+            if (status) {
+                clockConstraintLayout.layoutParams = layoutParams
+                statsSwitch.isChecked = true
+            } else {
+                layoutParams.weight = 0f
+                clockConstraintLayout.layoutParams = layoutParams
+                statsSwitch.isChecked = false
+            }
+        }
+
     }
 
     private fun checkWifiStatus() {
@@ -128,6 +173,8 @@ class Main : Fragment(R.layout.fragment_main) {
                     Log.i("checkWifiStatus", "Wifi Connected to $wifiSSID. Updating text")
                     wifiCounter = 0
                     wifiSwitch.text = getString(R.string.wifi_switch_connected, wifiSSID)
+                    wifiSwitch.isChecked = true
+                    statsSwitch.isEnabled = true
                 }
                 wifiCounter != 2 -> {
                     Log.i(
@@ -136,6 +183,8 @@ class Main : Fragment(R.layout.fragment_main) {
                     )
                     wifiCounter++
                     wifiSwitch.text = getString(R.string.wifi_switch)
+                    toggleStats(false);
+                    statsSwitch.isEnabled = false
                 }
                 else -> {
                     Log.i("checkWifiStatus", "Wifi Turned Off")
@@ -143,6 +192,8 @@ class Main : Fragment(R.layout.fragment_main) {
                     wifiSwitch.performClick()
                 }
             }
+        } else {
+            toggleWiFi(false);
         }
     }
 
@@ -151,19 +202,35 @@ class Main : Fragment(R.layout.fragment_main) {
         ticker = Runnable {
             if (!tickerRunning) return@Runnable
             tickerHandler.postDelayed(ticker, 60000)
-            clockFragment.clockUpdater()
-            moveContentAround(
-                getRandomFloat(0.95f, 0.05f),
-                getRandomFloat(0.95f, 0.05f),
-                R.id.clock_fragment_content,
-                clockConstraintLayout
-            )
+            clockUpdater()
+            if (statsSwitch.isChecked) statsUpdater()
             checkWifiStatus()
 
         }
         seconds = SimpleDateFormat("s", Locale.ENGLISH).format(Date()).toInt()
         val startTime = (60 - seconds) * 1000
         tickerHandler.postDelayed(ticker, startTime.toLong())
+    }
+
+    private fun clockUpdater() {
+        clockFragment.clockUpdater()
+        moveContentAround(
+            getRandomFloat(0.95f, 0.05f),
+            getRandomFloat(0.95f, 0.05f),
+            R.id.clock_fragment_content,
+            clockConstraintLayout
+        )
+    }
+
+
+    private fun statsUpdater() {
+        statsFragment.getStatsData()
+        moveContentAround(
+            getRandomFloat(0.95f, 0.05f),
+            getRandomFloat(0.95f, 0.05f),
+            R.id.stats_fragment_content,
+            statsConstraintLayout
+        )
     }
 
 

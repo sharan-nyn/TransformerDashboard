@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <fragment
-        android:name="com.transformer.dashboard.fragments.Main"
+        android:name="com.transformer.dashboard.fragments.MainFragment"
         android:id="@+id/fragment_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

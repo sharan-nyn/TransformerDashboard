@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".fragments.Main">
+    tools:context=".fragments.MainFragment">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -60,7 +60,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:background="@color/black_overlay"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
+        android:layout_marginBottom="10dp"
         tools:ignore="UselessParent">
 
         <androidx.appcompat.widget.SwitchCompat
@@ -69,6 +69,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/wifi_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/stats_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/enable_stats" />
 
     </LinearLayout>
 
